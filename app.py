@@ -1,7 +1,7 @@
 # app.py
 from flask import Flask, render_template, request, redirect, url_for
 import base64, uuid, time
-import pdf417
+import pdf417gen
 import os
 from PIL import Image
 
@@ -47,8 +47,8 @@ def barcode(ticket_id):
     if not ticket:
         return "Not found", 404
     raw = ticket["token"]
-    codes = pdf417.encode(raw, columns=6, security_level=5)
-    image = pdf417.render_image(codes)
+    codes = pdf417gen.encode(raw, columns=6, security_level=5)
+    image = pdf417gen.render_image(codes)
     path = f"static/barcodes/{ticket_id}.png"
     os.makedirs("static/barcodes", exist_ok=True)
     image.save(path)
